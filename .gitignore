@@ -1,0 +1,45 @@
+# Object and dependency files
+*.o
+*.obj
+*.d
+
+# Compiled binaries and executables
+bin/*
+!bin/.gitkeep
+/server
+/client
+*.exe
+*.out
+*.app
+*.dSYM/
+
+# Libraries and archives
+*.a
+*.so
+*.dylib
+*.dll
+*.zip
+*.tar.gz
+*.rar
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.clang-format-ignore

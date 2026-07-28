@@ -4,6 +4,7 @@ CLIENTS ?= 2
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Isrc/server -Isrc/client -Isrc/common -Isrc -std=c99 -D_POSIX_C_SOURCE=200809L
+SAN_FLAGS = -fsanitize=address,undefined -g
 
 BIN_DIR = bin
 SRC_DIR = src
@@ -15,7 +16,7 @@ CLIENT_SRCS = $(wildcard $(SRC_DIR)/client/*.c) $(COMMON_SRCS)
 SERVER_BIN = $(BIN_DIR)/server
 CLIENT_BIN = $(BIN_DIR)/client
 
-.PHONY: default build all server client clean format check-format run run-server run-clients
+.PHONY: default build all server client clean format check-format run sanitize sanitize-server sanitize-client
 
 # Default target: typing 'make' does EVERYTHING (format -> compile -> launch server + clients)
 default: build run
@@ -34,19 +35,31 @@ $(CLIENT_BIN): $(CLIENT_SRCS) | $(BIN_DIR)
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
-# Launch Server only (formats, compiles, and opens server terminal)
+# Standard Launch targets
 server: format $(SERVER_BIN)
 	./scripts/run_local.sh server $(PORT) $(CLIENTS)
 
-# Launch Clients only (formats, compiles, and opens client terminals)
 client: format $(CLIENT_BIN)
 	./scripts/run_local.sh clients $(PORT) $(CLIENTS)
 
 clients: client
 
-# Launch Server + Clients (formats, compiles, and opens both)
 run: build
 	./scripts/run_local.sh all $(PORT) $(CLIENTS)
+
+# Sanitizer Launch targets (AddressSanitizer & UndefinedBehaviorSanitizer)
+sanitize: format | $(BIN_DIR)
+	$(CC) $(CFLAGS) $(SAN_FLAGS) $(SERVER_SRCS) -o $(SERVER_BIN)
+	$(CC) $(CFLAGS) $(SAN_FLAGS) $(CLIENT_SRCS) -o $(CLIENT_BIN)
+	./scripts/run_local.sh all $(PORT) $(CLIENTS)
+
+sanitize-server: format | $(BIN_DIR)
+	$(CC) $(CFLAGS) $(SAN_FLAGS) $(SERVER_SRCS) -o $(SERVER_BIN)
+	./scripts/run_local.sh server $(PORT) $(CLIENTS)
+
+sanitize-client: format | $(BIN_DIR)
+	$(CC) $(CFLAGS) $(SAN_FLAGS) $(CLIENT_SRCS) -o $(CLIENT_BIN)
+	./scripts/run_local.sh clients $(PORT) $(CLIENTS)
 
 format:
 	@if command -v clang-format >/dev/null 2>&1; then \

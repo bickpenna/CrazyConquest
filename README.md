@@ -28,11 +28,10 @@ You can manage compilation, code formatting, and local testing entirely through 
 | **`make`** | **Do everything**: Formats C code, compiles binaries, and launches Server + 2 Clients. |
 | **`make CLIENTS=N`** | Formats, compiles, and launches **Server + N Clients**. |
 | **`make server`** | Formats C code, compiles, and launches **Server only**. |
+| **`make server-sanitize`** | Compiles **Server only** with AddressSanitizer & UBSan and launches it. |
 | **`make client`** | Formats C code, compiles, and launches **Clients only** (default: 2). |
-| **`make client CLIENTS=N`** | Formats, compiles, and launches **N Clients only**. |
-| **`make sanitize`** | Compiles Server + Clients with **AddressSanitizer & UBSan** (detects memory leaks & out-of-bounds access) and launches both. |
-| **`make sanitize-server`** | Compiles **Server only** with AddressSanitizer and launches it. |
-| **`make sanitize-client`** | Compiles **Clients only** with AddressSanitizer and launches them. |
+| **`make client-sanitize`** | Compiles **Clients only** with AddressSanitizer & UBSan and launches them. |
+| **`make run-sanitize`** | Compiles Server + Clients with **AddressSanitizer & UBSan** (detects memory leaks & out-of-bounds access) and launches both. |
 | **`make build`** | Formats C code and compiles binaries (`bin/server` & `bin/client`) **without opening terminals**. |
 | **`make format`** | Formats all `.c` and `.h` files using `clang-format`. |
 | **`make clean`** | Removes all compiled binaries from `bin/`. |

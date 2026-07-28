@@ -16,7 +16,7 @@ CLIENT_SRCS = $(wildcard $(SRC_DIR)/client/*.c) $(COMMON_SRCS)
 SERVER_BIN = $(BIN_DIR)/server
 CLIENT_BIN = $(BIN_DIR)/client
 
-.PHONY: default build all server client clean format check-format run sanitize sanitize-server sanitize-client
+.PHONY: default build all server server-sanitize client client-sanitize clients run run-sanitize sanitize clean format check-format
 
 # Default target: typing 'make' does EVERYTHING (format -> compile -> launch server + clients)
 default: build run
@@ -48,18 +48,25 @@ run: build
 	./scripts/run_local.sh all $(PORT) $(CLIENTS)
 
 # Sanitizer Launch targets (AddressSanitizer & UndefinedBehaviorSanitizer)
-sanitize: format | $(BIN_DIR)
+# Postfix -sanitize allows autocomplete via TAB in terminal (e.g. make server<TAB>)
+server-sanitize: format | $(BIN_DIR)
+	$(CC) $(CFLAGS) $(SAN_FLAGS) $(SERVER_SRCS) -o $(SERVER_BIN)
+	./scripts/run_local.sh server $(PORT) $(CLIENTS)
+
+client-sanitize: format | $(BIN_DIR)
+	$(CC) $(CFLAGS) $(SAN_FLAGS) $(CLIENT_SRCS) -o $(CLIENT_BIN)
+	./scripts/run_local.sh clients $(PORT) $(CLIENTS)
+
+clients-sanitize: client-sanitize
+
+run-sanitize: format | $(BIN_DIR)
 	$(CC) $(CFLAGS) $(SAN_FLAGS) $(SERVER_SRCS) -o $(SERVER_BIN)
 	$(CC) $(CFLAGS) $(SAN_FLAGS) $(CLIENT_SRCS) -o $(CLIENT_BIN)
 	./scripts/run_local.sh all $(PORT) $(CLIENTS)
 
-sanitize-server: format | $(BIN_DIR)
-	$(CC) $(CFLAGS) $(SAN_FLAGS) $(SERVER_SRCS) -o $(SERVER_BIN)
-	./scripts/run_local.sh server $(PORT) $(CLIENTS)
-
-sanitize-client: format | $(BIN_DIR)
-	$(CC) $(CFLAGS) $(SAN_FLAGS) $(CLIENT_SRCS) -o $(CLIENT_BIN)
-	./scripts/run_local.sh clients $(PORT) $(CLIENTS)
+sanitize: run-sanitize
+sanitize-server: server-sanitize
+sanitize-client: client-sanitize
 
 format:
 	@if command -v clang-format >/dev/null 2>&1; then \

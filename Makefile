@@ -16,15 +16,15 @@ CLIENT_SRCS = $(wildcard $(SRC_DIR)/client/*.c) $(COMMON_SRCS)
 SERVER_BIN = $(BIN_DIR)/server
 CLIENT_BIN = $(BIN_DIR)/client
 
-.PHONY: default build all server server-sanitize client client-sanitize clients run run-sanitize sanitize clean format check-format
+.PHONY: all build server server-sanitize client client-sanitize clients run run-sanitize sanitize clean format check-format
 
-# Default target: typing 'make' does EVERYTHING (format -> compile -> launch server + clients)
-default: build run
+# Default target: typing 'make' or 'make all' compiles the binaries (format -> compile)
+all: build
+
+default: all
 
 # Build target: formats code first, then compiles only if files were modified
 build: format $(SERVER_BIN) $(CLIENT_BIN)
-
-all: build
 
 $(SERVER_BIN): $(SERVER_SRCS) | $(BIN_DIR)
 	$(CC) $(CFLAGS) $^ -o $@

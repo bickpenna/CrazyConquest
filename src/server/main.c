@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char *argv[]) {
+int main(int argc, const char *argv[]) {
     int port = 8080;
     if (argc > 1) {
         port = atoi(argv[1]);

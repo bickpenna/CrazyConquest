@@ -28,7 +28,7 @@ Before starting development, ensure you have the required compiler, build tools,
   - **Linux**: `sudo apt-get install build-essential`
 - **Code Formatter & Static Analyzer**:
   - **macOS**: `brew install clang-format cppcheck`
-  - **Linux**: `sudo apt-get install clang-format cppcheck`
+  - **Linux**: `sudo apt-get install build-essential clang clang-format cppcheck`
 
 ---
 
@@ -47,7 +47,26 @@ You can manage compilation, code formatting, and local testing entirely through 
 | **`make run-sanitize`** | Compiles Server + Clients with **AddressSanitizer & UBSan** (detects memory leaks & out-of-bounds access) and launches both. |
 | **`make build`** | Formats C code and compiles binaries (`bin/server` & `bin/client`) **without opening terminals**. |
 | **`make format`** | Formats all `.c` and `.h` files using `clang-format`. |
+| **`make check`** | Runs the local equivalent of GitHub Actions: formatting validation, GCC and Clang compilation, and `cppcheck`. |
 | **`make clean`** | Removes all compiled binaries from `bin/`. |
+
+---
+
+### ✅ Validate Before Pushing
+
+Before opening a pull request or pushing a change, run:
+
+```bash
+make check
+```
+
+This command does not modify source files. It verifies that formatting matches `clang-format`, compiles the project with both GCC and Clang, and runs the same `cppcheck` options used by GitHub Actions. If the command succeeds, the local checks match the GitHub Actions CI workflow.
+
+On macOS, install the required tools with:
+
+```bash
+brew install clang-format cppcheck
+```
 
 ---
 
@@ -62,7 +81,7 @@ To keep the repository clean and avoid code conflicts:
    git pull
    git checkout -b feature/your-feature-name
    ```
-3. **Format & Test before commit**: Always run `make format` and verify compilation with `make build` before pushing.
+3. **Format & Test before commit**: Run `make check` before pushing. If it reports formatting issues, run `make format` and then repeat `make check`.
 4. **Sync with `main` before merging**: Before merging your PR, merge the latest `main` into your feature branch to prevent regressions and catch logical conflicts:
    ```bash
    git fetch origin

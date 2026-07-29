@@ -16,7 +16,7 @@ CLIENT_SRCS = $(wildcard $(SRC_DIR)/client/*.c) $(COMMON_SRCS)
 SERVER_BIN = $(BIN_DIR)/server
 CLIENT_BIN = $(BIN_DIR)/client
 
-.PHONY: all build server server-sanitize client client-sanitize clients run run-sanitize sanitize clean format check-format
+.PHONY: all build server server-sanitize client client-sanitize clients run run-sanitize sanitize clean format check-format check check-gcc check-clang check-cppcheck
 
 # Default target: typing 'make' or 'make all' compiles the binaries (format -> compile)
 all: build
@@ -76,12 +76,39 @@ format:
 	fi
 
 check-format:
-	@if command -v clang-format >/dev/null 2>&1; then \
-		clang-format -i $$(find $(SRC_DIR) -name '*.c' -o -name '*.h') && \
-		git diff --exit-code || (echo "⚠️ Formatting errors found! Run 'make format' locally." && exit 1); \
-	else \
-		echo "⚠️ clang-format not installed locally. Skipping format check."; \
-	fi
+	@command -v clang-format >/dev/null 2>&1 || { \
+		echo "❌ clang-format is required. Install it before running this check."; \
+		exit 1; \
+	}
+	@clang-format --dry-run --Werror $$(find $(SRC_DIR) -name '*.c' -o -name '*.h') || { \
+		echo "❌ Formatting errors found! Run 'make format' locally."; \
+		exit 1; \
+	}
+
+# Run the local equivalent of the GitHub Actions CI matrix.
+check: check-format
+	@$(MAKE) check-gcc
+	@$(MAKE) check-clang
+	@$(MAKE) check-cppcheck
+
+check-gcc:
+	@$(MAKE) clean
+	@$(MAKE) CC=gcc
+
+check-clang:
+	@$(MAKE) clean
+	@$(MAKE) CC=clang
+
+check-cppcheck:
+	@command -v cppcheck >/dev/null 2>&1 || { \
+		echo "❌ cppcheck is required. Install it before running this check."; \
+		exit 1; \
+	}
+	@cppcheck --enable=warning,style,performance,portability \
+		--error-exitcode=1 \
+		--inline-suppr \
+		-I src/server -I src/client -I src/common \
+		src/
 
 clean:
 	rm -f $(BIN_DIR)/server $(BIN_DIR)/client

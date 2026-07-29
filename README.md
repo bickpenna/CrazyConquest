@@ -62,12 +62,6 @@ make check
 
 This command does not modify source files. It verifies that formatting matches `clang-format`, compiles the project with both GCC and Clang, and runs the same `cppcheck` options used by GitHub Actions. If the command succeeds, the local checks match the GitHub Actions CI workflow.
 
-On macOS, install the required tools with:
-
-```bash
-brew install clang-format cppcheck
-```
-
 ---
 
 ### 🌿 Git & Feature Branching Workflow
@@ -75,12 +69,13 @@ brew install clang-format cppcheck
 To keep the repository clean and avoid code conflicts:
 
 1. **Keep `main` stable**: The `main` branch must always compile and be runnable.
-2. **Work in Feature Branches**: For new features or bug fixes, create a short-lived branch from `main`:
+2. **Work in Feature Branches**: For new features, bug fixes, or maintenance, create a short-lived branch from `main`:
    ```bash
    git checkout main
    git pull
    git checkout -b feature/your-feature-name
    ```
+   *(Use standard branch prefixes: `feature/` for new functionality, `fix/` for bug fixes, or `chore/` for maintenance and tooling such as updating `Makefile`, documentation, CI workflows, or formatting rules).*
 3. **Format & Test before commit**: Run `make check` before pushing. If it reports formatting issues, run `make format` and then repeat `make check`.
 4. **Sync with `main` before merging**: Before merging your PR, merge the latest `main` into your feature branch to prevent regressions and catch logical conflicts:
    ```bash

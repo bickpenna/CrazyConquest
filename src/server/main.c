@@ -1,7 +1,7 @@
+#include "game.h"
+#include "server.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "server.h"
-#include "game.h"
 
 int main(int argc, char *argv[]) {
     int port = 8080;

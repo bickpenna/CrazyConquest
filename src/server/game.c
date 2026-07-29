@@ -7,10 +7,6 @@ void game_init(int width, int height) {
     /* Map initialization stub */
 }
 
-void game_update(void) {
-    /* Periodic game update stub */
-}
+void game_update(void) { /* Periodic game update stub */ }
 
-void game_cleanup(void) {
-    /* Game resources cleanup stub */
-}
+void game_cleanup(void) { /* Game resources cleanup stub */ }

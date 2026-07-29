@@ -13,6 +13,4 @@ void server_run(int server_fd) {
     /* Non-blocking main loop stub */
 }
 
-void server_cleanup(void) {
-    /* Cleanup stub */
-}
+void server_cleanup(void) { /* Cleanup stub */ }

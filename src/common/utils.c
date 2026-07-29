@@ -1,7 +1,7 @@
 #include "utils.h"
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 
 void log_message(const char *format, ...) {
     va_list args;

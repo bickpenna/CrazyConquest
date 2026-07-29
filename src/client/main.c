@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "client.h"
 #include "ui.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char *argv[]) {
     const char *host = "127.0.0.1";

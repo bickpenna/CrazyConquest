@@ -44,12 +44,7 @@ typedef struct {
 } msg_register_res_t;
 
 /* Movement Directions */
-typedef enum {
-    DIR_UP = 0,
-    DIR_RIGHT = 1,
-    DIR_DOWN = 2,
-    DIR_LEFT = 3
-} move_direction_t;
+typedef enum { DIR_UP = 0, DIR_RIGHT = 1, DIR_DOWN = 2, DIR_LEFT = 3 } move_direction_t;
 
 /* Payload: Move Request */
 typedef struct {

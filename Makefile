@@ -76,7 +76,12 @@ format:
 	fi
 
 check-format:
-	clang-format --dry-run --Werror $$(find $(SRC_DIR) -name '*.c' -o -name '*.h')
+	@if command -v clang-format >/dev/null 2>&1; then \
+		clang-format -i $$(find $(SRC_DIR) -name '*.c' -o -name '*.h') && \
+		git diff --exit-code || (echo "⚠️ Formatting errors found! Run 'make format' locally." && exit 1); \
+	else \
+		echo "⚠️ clang-format not installed locally. Skipping format check."; \
+	fi
 
 clean:
 	rm -f $(BIN_DIR)/server $(BIN_DIR)/client

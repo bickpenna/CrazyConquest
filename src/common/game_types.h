@@ -6,10 +6,7 @@
 #define MAX_NICKNAME_LEN 32
 #define MAX_PLAYERS 64
 
-typedef enum {
-    CELL_EMPTY = 0,
-    CELL_WALL = 1
-} CellType;
+typedef enum { CELL_EMPTY = 0, CELL_WALL = 1 } CellType;
 
 typedef struct {
     int x;

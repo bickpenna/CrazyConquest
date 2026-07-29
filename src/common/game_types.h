@@ -15,7 +15,7 @@ typedef struct {
 
 typedef struct {
     CellType type;
-    int owner_id; // -1 if unclaimed
+    int owner_id; /* -1 if unclaimed */
 } Cell;
 
 typedef struct {

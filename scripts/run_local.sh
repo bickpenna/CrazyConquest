@@ -46,7 +46,7 @@ run_in_terminal() {
             xfce4-terminal --title="$title" -e "bash -c 'cd \"$ROOT_DIR\" && $cmd; exec bash'"
         elif command -v xterm &>/dev/null; then
             xterm -T "$title" -e "cd '$ROOT_DIR' && $cmd; exec bash" &
-        elif command -v tmux &>/dev/null; then
+        elif command -v tmux &>/dev/null && tmux info &>/dev/null; then
             tmux new-window -n "$title" "cd '$ROOT_DIR' && $cmd"
         else
             echo "⚠️ No supported Linux GUI terminal emulator found. Running in background..."

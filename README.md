@@ -19,6 +19,14 @@ A real-time multiplayer grid conquest game on UNIX. Developed as a university pr
 
 ## 🚀 Quick Start & Developer Guide
 
+### 📦 Prerequisites
+
+Before starting development, make sure you have `clang-format` installed locally for automatic code formatting:
+- **macOS**: `brew install clang-format`
+- **Linux**: `sudo apt-get install clang-format cppcheck`
+
+---
+
 ### 🛠️ Build & Run Commands
 
 You can manage compilation, code formatting, and local testing entirely through `make`:
@@ -91,5 +99,5 @@ CrazyConquest/
 
 The project was developed by:
 
-- **Mario Penna**
-- **Emmanuele Laurini**
+- [**Mario Penna**](https://github.com/bickpenna) (Matricola: `N86003308`)
+- [**Emmanuele Laurini**](https://github.com/laurokh) (Matricola: `N86004040`)

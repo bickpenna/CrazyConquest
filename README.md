@@ -21,9 +21,14 @@ A real-time multiplayer grid conquest game on UNIX. Developed as a university pr
 
 ### 📦 Prerequisites
 
-Before starting development, make sure you have `clang-format` installed locally for automatic code formatting:
-- **macOS**: `brew install clang-format`
-- **Linux**: `sudo apt-get install clang-format cppcheck`
+Before starting development, ensure you have the required compiler, build tools, code formatter, and terminal emulator installed:
+
+- **C Compiler & Build Tools** (C99 standard):
+  - **macOS**: Installed via Xcode Command Line Tools (`xcode-select --install`)
+  - **Linux**: `sudo apt-get install build-essential`
+- **Code Formatter & Static Analyzer**:
+  - **macOS**: `brew install clang-format cppcheck`
+  - **Linux**: `sudo apt-get install clang-format cppcheck`
 
 ---
 
